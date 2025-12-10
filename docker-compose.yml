@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://dashboard:dashboard@db:5432/dashboard
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    container_name: dashboard-db
+    environment:
+      - POSTGRES_USER=dashboard
+      - POSTGRES_PASSWORD=dashboard123
+      - POSTGRES_DB=dashboard
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  dbdata:

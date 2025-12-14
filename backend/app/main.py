@@ -2,6 +2,13 @@ from fastapi import FastAPI
 import psutil
 from fastapi.middleware.cors import CORSMiddleware
 
+
+app = FastAPI(
+    title="Personal API Dashboard",
+    version="1.0.0"
+)
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -9,10 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app = FastAPI(
-    title="Personal API Dashboard",
-    version="1.0.0"
-)
+
 
 @app.get("/")
 def root():
